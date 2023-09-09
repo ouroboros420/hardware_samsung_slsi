@@ -1,0 +1,42 @@
+cc_library_shared {
+    name: "gatekeeper.exynos2100",
+    relative_install_path: "hw",
+
+    srcs: [
+    "src/*.cpp",
+    "src/*.c"
+    ],
+
+    cflags: [
+        "-Wall",
+        "-Werror",
+        "-Wmissing-field-initializers",
+        "-Wunused-parameter",
+    "-DUSE_VENDOR_PARTITION"
+    ],
+    cppflags: ["-std=c++11"] + [
+        "-fpermissive",
+        "-Wall",
+        "-Werror",
+        "-D__STDC_LIMIT_MACROS",
+    "-D__FAILURE_RECORD_STORAGE_IN_SECURE_OBJECT__"
+    ],
+
+    local_include_dirs: ["include"],
+
+    include_dirs: [
+    "external/libcxx/include",
+    "hardware/libhardware/include/",
+    "system/core/libsystem/include/",
+    "system/core/libcutils/include_outside_system/"
+    ],
+
+    shared_libs: [
+    "liblog",
+    "libgatekeeper",
+    "//hardware/samsung_slsi/exynos/tee/kinibi510:libMcClient"
+    ],
+
+    proprietary: true,
+
+}

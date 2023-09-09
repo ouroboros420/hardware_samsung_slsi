@@ -1,0 +1,14 @@
+*.out
+*.elf
+*.o
+*.d
+*.bin
+*~
+*.napp
+*.patch
+*.swp
+*.cscope
+.*
+
+#keep .gitignore and other important hidden files
+!.gitignore

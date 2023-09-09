@@ -1,0 +1,140 @@
+/*
+ * Copyright (C) 2020-2021 Samsung Electronics Co. Ltd.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+soong_config_module_type {
+    name: "sgr_cc_defaults",
+    module_type: "cc_defaults",
+    config_namespace: "sgr",
+    variables: [
+        "backend",
+        "enable_sajc",
+    ],
+    properties: [
+        "cflags",
+        "srcs",
+    ],
+}
+
+soong_config_string_variable {
+    name: "backend",
+    values: [
+        "sgpu",
+        "mali",
+    ],
+}
+
+soong_config_bool_variable {
+    name: "enable_sajc",
+}
+
+sgr_common_core_srcs = [
+    "src/core/camera_format_manager.cpp",
+    "src/core/cpu_format_manager.cpp",
+    "src/core/dcc_layout_manager.cpp",
+    "src/core/exynos_ion_memory_manager.cpp",
+    "src/core/format_info.cpp",
+    "src/core/format_manager.cpp",
+    "src/core/hwc_format_manager.cpp",
+    "src/core/ip_format_manager.cpp",
+    "src/core/linear_layout_manager.cpp",
+    "src/core/metadata_manager.cpp",
+    "src/core/sbwc_layout_manager.cpp",
+    "src/core/video_format_manager.cpp",
+]
+
+sgr_common_shared_libs = [
+    "libbase",
+    "libc++",
+    "libcutils",
+    "libeis_utils",
+    "libgralloctypes",
+    "libhardware",
+    "libhidlbase",
+    "libion_exynos",
+    "liblog",
+    "libutils",
+]
+
+sgr_cc_defaults {
+    name: "sgr_defaults",
+    include_dirs: [
+        "hardware/samsung_slsi/exynos/include",
+        "hardware/samsung_slsi/sgpu/sgpu_gralloc/src",
+    ],
+    relative_install_path: "hw",
+    srcs: sgr_common_core_srcs,
+    cflags: [
+        "-Wno-unused-parameter",
+        "-DANDROID_GRALLOC_MEMORY_MANAGER=EXYNOS_ION_MEMORY_MANAGER",
+    ],
+    shared_libs: sgr_common_shared_libs,
+    soong_config_variables: {
+        backend: {
+            sgpu: {
+                cflags: ["-DANDROID_GRALLOC_GPU=ANDROID_GRALLOC_BACKEND_SGPU"],
+                srcs: ["src/core/sgpu_format_manager.cpp"],
+            },
+            mali: {
+                cflags: ["-DANDROID_GRALLOC_GPU=ANDROID_GRALLOC_BACKEND_MALI"],
+                srcs: ["src/core/mali_gpu_format_manager.cpp"],
+            },
+        },
+        enable_sajc: {
+            cflags: ["-DENABLE_SAJC_DEFAULT"],
+        },
+    },
+}
+
+cc_binary {
+    name: "android.hardware.graphics.allocator@4.0-service-sgr",
+    defaults: [
+        "sgr_defaults",
+    ],
+    proprietary: true,
+    srcs: [
+        "src/core/allocator.cpp",
+        "src/gralloc4/AllocatorHidl.cpp",
+        "src/gralloc4/service.cpp",
+    ],
+    init_rc: [
+        "src/gralloc4/android.hardware.graphics.allocator@4.0-service-sgr.rc",
+    ],
+    shared_libs: [
+        "android.hardware.graphics.allocator@4.0",
+    ],
+}
+
+cc_library_shared {
+    name: "android.hardware.graphics.mapper@4.0-impl-sgr",
+    defaults: [
+        "sgr_defaults",
+    ],
+    vendor: true,
+    srcs: [
+        "src/core/mapper.cpp",
+        "src/gralloc4/MapperHidl.cpp",
+        "src/interface/g_private_handle_interface.cpp",
+    ],
+    export_include_dirs: ["."],
+    shared_libs: [
+        "android.hardware.graphics.mapper@4.0",
+        "libsync",
+    ],
+    header_libs: [
+        "libhardware_headers",
+        "libnativebase_headers",
+    ],
+}

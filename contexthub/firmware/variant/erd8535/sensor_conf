@@ -1,0 +1,33 @@
+#
+#  Note :
+#       USE_MULTI_SENSOR_COMBINATION : Option if support multi sensor
+#           combinations.
+#
+#       If USE_MULTI_SENSOR_COMBINATION = 1, the followings should be
+#       defined.
+#
+#           MULTI_COMB_OPTION_NAME : Option Name
+#           MULTI_COMB_OPTION : Options for each Option Name
+#
+#       OTHER_OPTIONS : Other compile options
+
+USE_MULTI_SENSOR_COMBINATION=1
+
+MULTI_COMB_OPTION_NAME=("ACC" "MAG" "ALS" "BARO" "MGR")
+
+  ACC_OPT=("NULL"  "BMI26X")
+  MAG_OPT=("NULL"  "AK09918")
+  ALS_OPT=("NULL"  "TMD3725")
+  BARO_OPT=("NULL" "NULL")
+  MGR_OPT=("EXYNOS" "NULL")
+
+MULTI_COMB_OPTION=(
+    ${ACC_OPT[@]}
+    ${MAG_OPT[@]}
+    ${ALS_OPT[@]}
+    ${BARO_OPT[@]}
+    ${MGR_OPT[@]}
+)
+
+OTHER_OPTIONS=''
+
