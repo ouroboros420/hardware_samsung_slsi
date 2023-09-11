@@ -19,5 +19,5 @@
 
 #include "ExynosDisplayFbInterface.h"
 
-decon_idma_type getIDMAType(uint32_t type, uint32_t index);
+decon_idma_type getDPPChannel(uint32_t type, uint32_t index);
 #endif

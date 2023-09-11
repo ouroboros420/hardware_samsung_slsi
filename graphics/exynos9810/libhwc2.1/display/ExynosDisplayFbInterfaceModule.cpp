@@ -16,22 +16,10 @@
 
 #include "ExynosDisplayFbInterfaceModule.h"
 
-decon_idma_type getIDMAType(uint32_t type, uint32_t index) {
-    if (type == MPP_DPP_VG)
-        return (decon_idma_type)((uint32_t)IDMA_VG0 + index);
-    else if (type == MPP_DPP_VGFS)
-        return (decon_idma_type)((uint32_t)IDMA_VGF0 + index);
-    else if (type == MPP_DPP_VGRFS)
-        return (decon_idma_type)((uint32_t)IDMA_VGRF0 + index);
-    else if (type == MPP_DPP_G) {
-        switch (index) {
-            case 0:
-                return IDMA_G0;
-            case 1:
-                return IDMA_G1;
-            default:
-                return MAX_DECON_DMA_TYPE;
-        }
-    } else
-        return MAX_DECON_DMA_TYPE;
+decon_idma_type getDPPChannel(uint32_t type, uint32_t index) {
+    for (auto &chMap : IDMA_CHANNEL_MAP) {
+        if((chMap.type == type) && (chMap.index == index))
+            return chMap.channel;
+    }
+    return MAX_DECON_DMA_TYPE;
 }

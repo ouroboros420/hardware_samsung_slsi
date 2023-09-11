@@ -62,7 +62,7 @@ enum decon_idma_type {
   IDMA_VG0,
   IDMA_VG1,
   IDMA_VGF0,
-  IDMA_VGRF0,
+  IDMA_VGF1,
   ODMA_WB,
   MAX_DECON_DMA_TYPE,
 };

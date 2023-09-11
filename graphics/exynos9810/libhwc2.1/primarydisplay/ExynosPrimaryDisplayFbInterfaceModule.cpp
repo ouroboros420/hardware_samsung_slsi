@@ -29,5 +29,5 @@ ExynosPrimaryDisplayFbInterfaceModule::~ExynosPrimaryDisplayFbInterfaceModule()
 decon_idma_type ExynosPrimaryDisplayFbInterfaceModule::getDeconDMAType(
         uint32_t type, uint32_t index)
 {
-    return getIDMAType(type, index);
+    return getDPPChannel(type, index);
 }
