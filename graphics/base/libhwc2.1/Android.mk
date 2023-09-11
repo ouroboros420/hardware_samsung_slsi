@@ -48,6 +48,7 @@ LOCAL_HEADER_LIBRARIES += libdisplaycolor_interface
 endif
 
 LOCAL_C_INCLUDES += \
+	$(TOP)/hardware/samsung_slsi/exynos/include \
 	$(TOP)/hardware/samsung_slsi/graphics/base/libhwc2.1/device \
 	$(TOP)/hardware/samsung_slsi/graphics/base/libhwc2.1/utils \
 	$(TOP)/hardware/samsung_slsi/graphics/base/libhwc2.1/display \
