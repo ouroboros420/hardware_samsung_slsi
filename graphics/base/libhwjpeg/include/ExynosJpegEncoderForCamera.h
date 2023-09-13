@@ -100,7 +100,11 @@ class ExynosJpegEncoderForCamera: public ExynosJpegEncoder {
 protected:
     virtual bool EnsureFormatIsApplied();
 public:
+#ifdef USE_LEGACY_HWJPEG
+    ExynosJpegEncoderForCamera(bool bBTBComp = true);
+#else
     ExynosJpegEncoderForCamera(bool bBTBComp = true, unsigned int index = 0);
+#endif
     virtual ~ExynosJpegEncoderForCamera();
 
     int encode(int *size, exif_attribute_t *exifInfo, char** pcJpegBuffer, debug_attribute_t *debugInfo = 0);

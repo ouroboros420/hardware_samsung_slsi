@@ -19,6 +19,9 @@ LOCAL_CFLAGS += -DLOG_TAG=\"exynos-libhwjpeg\"
 ifdef BOARD_LIBHWJPEG_USES_G2D
 LOCAL_CFLAGS += -DUSE_G2D_SCALER
 endif
+ifdef BOARD_LIBHWJPEG_LEGACY
+LOCAL_CFLAGS += -DUSE_LEGACY_HWJPEG
+endif
 
 LOCAL_SHARED_LIBRARIES := liblog libutils libcutils libion_exynos libgiantmscl libacryl
 LOCAL_HEADER_LIBRARIES := libcutils_headers libsystem_headers libhardware_headers libexynos_headers
