@@ -26,7 +26,7 @@ int main() {
     ABinderProcess_setThreadPoolMaxThreadCount(0);
     std::shared_ptr<Memtrack> memtrack = ndk::SharedRefBase::make<Memtrack>();
 
-    const std::string instance = std::string() + Memtrack::descriptor + "/default";
+    const std::string instance = std::c_str() + Memtrack::descriptor + "/default";
     binder_status_t status =
             AServiceManager_addService(memtrack->asBinder().get(), instance.c_str());
     CHECK(status == STATUS_OK);

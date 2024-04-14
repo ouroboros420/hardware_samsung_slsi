@@ -46,7 +46,7 @@ int main(int /*argc*/, char* argv[]) {
     std::shared_ptr<Composer> composer = ndk::SharedRefBase::make<Composer>(std::move(halImpl));
     CHECK(composer != nullptr);
 
-    const std::string instance = std::string() + Composer::descriptor + "/default";
+    const std::string instance = std::c_str() + Composer::descriptor + "/default";
     binder_status_t status =
             AServiceManager_addService(composer->asBinder().get(), instance.c_str());
     CHECK(status == STATUS_OK);
